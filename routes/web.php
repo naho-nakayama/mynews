@@ -28,3 +28,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// 15 投稿したニュース一覧を表示しようより下記追記
+Route::group(['prefix' => 'admin'], function() {
+    Route::get('news/create', 'Admin\NewsController@add')->middleware('auth');
+    Route::post('news/create', 'Admin\NewsController@create')->middleware('auth');
+    Route::get('news', 'Admin\NewsController@index')->middleware('auth'); 
+    Route::get('news/edit', 'Admin\NewsController@edit')->middleware('auth'); // 16投稿したニュースの更新のため追記
+    Route::post('news/edit', 'Admin\NewsController@update')->middleware('auth'); // 16投稿したニュースの更新のため追記
+    Route::get('news/delete', 'Admin\NewsController@delete')->middleware('auth');//16投稿したニュースの削除のため追記
+});
