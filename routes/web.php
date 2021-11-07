@@ -38,3 +38,6 @@ Route::group(['prefix' => 'admin'], function() {
     Route::post('news/edit', 'Admin\NewsController@update')->middleware('auth'); // 16投稿したニュースの更新のため追記
     Route::get('news/delete', 'Admin\NewsController@delete')->middleware('auth');//16投稿したニュースの削除のため追記
 });
+
+Route::get('/', 'NewsController@index'); //19 一般ユーザーが読むニュースサイトを作成しようの、ニュース部分のフロント部分のルーティンングのため追記
+Route::get('/profile', 'ProfileController@index'); //19 一般ユーザーが読むニュースサイトを作成しようの、プロフィール部分のフロント部分のルーティンングのため追記
