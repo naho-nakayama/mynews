@@ -70,7 +70,7 @@ class NewsController extends Controller
       if (empty($news)) {
         abort(404);    
       }
-      return view('admin.news.edit', ['news_form' => $news]);
+      return view('admin.news.edit', ['news_form' => $news,'hoge' => '!']);
   }
 
 
