@@ -10,7 +10,7 @@ use App\News;
 //17 編集履歴を実装しようで 以下を追記
 use App\History;
 use Carbon\Carbon;
-
+use Storage; //Herokuの画像保存のため追加
 
 class NewsController extends Controller
 {
@@ -30,8 +30,8 @@ class NewsController extends Controller
       $form = $request->all();
       // フォームから画像が送信されてきたら、保存して、$news->image_path に画像のパスを保存する
       if (isset($form['image'])) {
-        $path = $request->file('image')->store('public/image');
-        $news->image_path = basename($path);
+        $path = Storage::disk('s3')->putFile('/',$news_form['image'],'public');//Herokuの画像保存より、$request->file('image')->store('public/image');から変更
+        $news->image_path = Storage::disk('s3')->url($path);//Herokuの画像保存より、basename($path);から変更
       } else {
           $news->image_path = null;
       }
@@ -85,8 +85,8 @@ class NewsController extends Controller
       if ($request->remove == 'true') {
           $news_form['image_path'] = null;
       } elseif ($request->file('image')) {
-          $path = $request->file('image')->store('public/image');
-          $news_form['image_path'] = basename($path);
+          $path = Storage::disk('s3')->putFile('/',$news_form['image'],'public');//Herokuの画像保存より、$request->file('image')->store('public/image');から変更
+          $news_form['image_path'] = Storage::disk('s3')->url($path);//Herokuの画像保存よりbasename($path);から変更
       } else {
           $news_form['image_path'] = $news->image_path;
       }
